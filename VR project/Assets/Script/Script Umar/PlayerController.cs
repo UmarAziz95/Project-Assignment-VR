@@ -100,8 +100,7 @@ public class PlayerController : MonoBehaviour
             isForward = false;
             isSide = false;
         }
-        Debug.Log("Forward " + isForward);
-        Debug.Log("Side " + isSide);
+
         animator.SetBool("isForward", isForward);
         animator.SetBool("isSide", isSide);
 
