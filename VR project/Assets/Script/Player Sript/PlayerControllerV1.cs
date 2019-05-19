@@ -1,8 +1,9 @@
-﻿
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
-{ 
+public class PlayerControllerV1 : MonoBehaviour
+{
     public float walkSpeed = 2;
     public float runSpeed = 6;
     public float gravity = -12;
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     Animator animator;
     CharacterController controller;
-    
+
 
     bool isForward = false;
     bool isSide = false;
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }
-    
+
     void Update()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -132,9 +133,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 forwardMovement = transform.forward * verticalInput;
         Vector3 rightMovement = transform.right * horizontalInput;
-       
+
         velocityY += Time.deltaTime * gravity;
-  
+
         Vector3 velocity = (forwardMovement + rightMovement).normalized * currentSpeed + Vector3.up * velocityY;
 
         if (isLanding || isInteracting)
@@ -151,7 +152,7 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
             animator.SetBool("isJumping", isJumping);
         }
-        
+
     }
 
     void CameraFollow()
@@ -179,7 +180,7 @@ public class PlayerController : MonoBehaviour
             return smoothTime;
         }
 
-        if(airControlPercent == 0)
+        if (airControlPercent == 0)
         {
             return float.MaxValue;
         }
@@ -197,19 +198,19 @@ public class PlayerController : MonoBehaviour
         buttonTrigger = trigger;
     }
 
-    public void SetTriggerPosition (Vector3 position)
+    public void SetTriggerPosition(Vector3 position)
     {
         triggerPosition = position;
     }
 
-    void ButtonInteraction ()
+    void ButtonInteraction()
     {
         isInteracting = true;
         transform.position = triggerPosition;
         animator.SetTrigger("buttonPressing");
     }
 
-    void CheckAnimationFinished ()
+    void CheckAnimationFinished()
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
         {
