@@ -76,9 +76,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        CheckAnimationFinished();
+        CheckAnimationCondition();
 
-        // animator
         MovementAnimation(horizontalInput, verticalInput, running);
     }
 
@@ -92,6 +91,12 @@ public class PlayerController : MonoBehaviour
         else if (Mathf.Abs(verticalInput) > 0)
         {
             isForward = true;
+            isSide = false;
+        }
+
+        if (isInteracting)
+        {
+            isForward = false;
             isSide = false;
         }
 
@@ -209,7 +214,7 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("buttonPressing");
     }
 
-    void CheckAnimationFinished ()
+    void CheckAnimationCondition ()
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
         {
@@ -220,13 +225,13 @@ public class PlayerController : MonoBehaviour
             isLanding = false;
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("ButtonPress"))
+        /*if (animator.GetCurrentAnimatorStateInfo(0).IsName("ButtonPress"))
         {
             isInteracting = true;
         }
         else
         {
-            isInteracting = false;
-        }
+            //isInteracting = false;
+        }*/
     }
 }
