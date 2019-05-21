@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class UpdateTrigger : MonoBehaviour
+public class UpdateTrigger : NetworkBehaviour
 {
+    [SyncVar]
     public int index;
     public Material[]materialColor;
     private Renderer rendererColor;
@@ -46,4 +48,23 @@ public class UpdateTrigger : MonoBehaviour
     {
         
     }
+
+   // [ClientRpc]
+    public void OnActiveChange(int indexTrigger)
+    {
+
+        if (!isServer)
+            return;
+
+     //   RpcDamage(index, indexTrigger);
+        index = indexTrigger;
+        
+    }
+
+    [ClientRpc]
+    void RpcDamage(int old, int baru )
+    {
+        Debug.Log("Update Lock: " + old + "Update Lock: " + baru);
+    }
+
 }

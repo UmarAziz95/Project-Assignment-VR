@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 { 
@@ -51,7 +52,11 @@ public class PlayerController : MonoBehaviour
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
-        bool running = Input.GetKey(KeyCode.LeftShift);
+        bool running = Input.GetAxis("Run").Equals(1);
+
+        if (PausePanel.IsOn)
+            return;
+
 
         BodyRotate();
 
