@@ -30,13 +30,11 @@ public class PlayerController : MonoBehaviour
     bool isForward = false;
     bool isSide = false;
     bool isJumping = false;
-    bool isPushing = false;
 
     bool pushTrigger = false;
     bool buttonTrigger = false;
     Vector3 triggerPosition = Vector3.zero;
     bool isInteracting = false;
-    bool isLanding = false;
 
     public float dampingTime = 0.15f;
 
@@ -66,11 +64,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Submit"))
         {
-            if (pushTrigger)
-            {
-
-            }
-            else if (buttonTrigger)
+           if (buttonTrigger)
             {
                 ButtonInteraction();
             }
@@ -142,7 +136,7 @@ public class PlayerController : MonoBehaviour
   
         Vector3 velocity = (forwardMovement + rightMovement).normalized * currentSpeed + Vector3.up * velocityY;
 
-        if (isLanding || isInteracting)
+        if (isInteracting)
         {
             velocity = Vector3.zero;
         }
@@ -192,11 +186,6 @@ public class PlayerController : MonoBehaviour
         return smoothTime / airControlPercent;
     }
 
-    public void SetPushTrigger(bool trigger)
-    {
-        pushTrigger = trigger;
-    }
-
     public void SetButtonTrigger(bool trigger)
     {
         buttonTrigger = trigger;
@@ -216,14 +205,7 @@ public class PlayerController : MonoBehaviour
 
     void CheckAnimationCondition ()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
-        {
-            isLanding = true;
-        }
-        else
-        {
-            isLanding = false;
-        }
+       
 
         /*if (animator.GetCurrentAnimatorStateInfo(0).IsName("ButtonPress"))
         {
@@ -234,4 +216,5 @@ public class PlayerController : MonoBehaviour
             //isInteracting = false;
         }*/
     }
+
 }
