@@ -1,15 +1,26 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
+using UnityEngine.Networking;
 
-public class LockController : MonoBehaviour
+public class LockController : NetworkBehaviour
 {
     public GameObject[] lockTrigger;
     List<int> triggerIndex = new List<int>();
-   
+//  private NetworkManager networkManager;
 
     void Start()
     {
+
+        setuplock();
+
+
+    }
+
+    [Client]
+    void setuplock()
+    {
+
         TriggerProperties.numOfTrigger = lockTrigger.Length;
         for (int i = 0; i < lockTrigger.Length; i++)
         {
@@ -18,18 +29,21 @@ public class LockController : MonoBehaviour
         }
 
         triggerIndex = RandomizeIndex(triggerIndex);
-        SetTriggerIndex();
+        CmdTriggerIndex();
     }
 
-    void SetTriggerIndex()
+    [Command]
+    void CmdTriggerIndex()
     {
+        Debug.Log("Update Lock: update");
         for (int i = 0; i < lockTrigger.Length; i++)
         {
             UpdateTrigger trigger = lockTrigger[i].GetComponent<UpdateTrigger>();
-            trigger.index = triggerIndex[i];
+            trigger.OnActiveChange(triggerIndex[i]);
         }
     }
 
+   
     public List<int> RandomizeIndex (List<int> items)
     {
         Random rand = new Random();
@@ -44,6 +58,7 @@ public class LockController : MonoBehaviour
             items[j] = temp;
         }
 
+        
         return items;
     }
 
@@ -58,5 +73,20 @@ public class LockController : MonoBehaviour
             }
             TriggerProperties.reset = false;
         }
+
+        /*if (Input.GetAxis("Fire3") == 1)
+        {
+
+            TriggerProperties.numOfTrigger = lockTrigger.Length;
+            for (int i = 0; i < lockTrigger.Length; i++)
+            {
+                int index = i + 1;
+                triggerIndex.Add(index);
+            }
+
+            triggerIndex = RandomizeIndex(triggerIndex);
+            SetTriggerIndex();
+        }
+        */
     }
 }
