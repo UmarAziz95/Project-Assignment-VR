@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR;
 
 public class stepPad : MonoBehaviour {
 
     // Use this for initialization
+    float timer;
 
     public bool enter = false;
     [SerializeField]
@@ -19,6 +21,11 @@ public class stepPad : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (!enter)
+        {
+            timer += Time.deltaTime;
+        }
+
         if (enter)
         {
             endgame();        }
@@ -32,6 +39,7 @@ public class stepPad : MonoBehaviour {
     public void endgame()
     {
         endgamepanel.SetActive(true);
+        endgamepanel.transform.Find("Timer").GetComponent<Text>().text = "Time Complete: " + timer.ToString("F");
         PausePanel.IsOn = endgamepanel.activeSelf;
         XRSettings.enabled = !XRSettings.isDeviceActive;
     }
