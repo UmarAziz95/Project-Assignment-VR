@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     float currentSpeed;
     float velocityY;
 
+    public GameObject model;
     public Transform cameraT;
     public Transform cameraParentT;
     public Vector3 cameraOffset = Vector3.zero;
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         //cameraOffset = cameraParentT.position;
-        animator = GetComponent<Animator>();
+        animator = model.GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }
     
@@ -126,7 +127,7 @@ public class PlayerController : MonoBehaviour
     void BodyRotate()
     {
         float targetRotation = cameraT.eulerAngles.y;
-        transform.eulerAngles = Vector3.up * targetRotation;
+        model.transform.eulerAngles = Vector3.up * targetRotation;
     }
 
     void Move(float horizontalInput, float verticalInput, bool running)
@@ -134,8 +135,8 @@ public class PlayerController : MonoBehaviour
         float targetSpeed = (running) ? runSpeed : walkSpeed;
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, GetModifiedSmoothTime(speedSmoothTime));
 
-        Vector3 forwardMovement = transform.forward * verticalInput;
-        Vector3 rightMovement = transform.right * horizontalInput;
+        Vector3 forwardMovement = model.transform.forward * verticalInput;
+        Vector3 rightMovement = model.transform.right * horizontalInput;
        
         velocityY += Time.deltaTime * gravity;
   
