@@ -8,6 +8,8 @@ public class PlayerUI : MonoBehaviour
 
     [SerializeField]
     GameObject pauseMenu;
+    [SerializeField]
+    GameObject endgamepanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,5 +33,11 @@ public class PlayerUI : MonoBehaviour
         XRSettings.enabled = !XRSettings.isDeviceActive;
     }
 
+    public void endgame()
+    {
+        endgamepanel.SetActive(true);
+        PausePanel.IsOn = pauseMenu.activeSelf;
+        XRSettings.enabled = !XRSettings.isDeviceActive;
+    }
 
 }
