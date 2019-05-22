@@ -10,7 +10,8 @@ public class Cube1 : MonoBehaviour
     private int current;
     
     
-    void Update()
+    
+    void FixedUpdate()
     {
         if(transform.position != target[current].position)
         {
@@ -22,4 +23,31 @@ public class Cube1 : MonoBehaviour
             current = (current + 1) % target.Length;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.transform.parent = transform;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.transform.position = transform.position;
+            other.transform.rotation = transform.rotation;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.transform.parent = null;
+        }
+    }
+
+
 }
